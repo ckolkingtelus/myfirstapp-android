@@ -12,7 +12,7 @@
         android:id="@+id/big_text_for_app"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="Tap me if you dare!"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,17 +20,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonTap"
         android:layout_width="wrap_content"
         android:layout_height="61dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="28dp"
         android:onClick="onButtonTap"
         android:shadowColor="@android:color/black"
         android:text="@string/tap_me"
         android:textColorHighlight="@android:color/holo_red_light"
         android:textColorLink="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/big_text_for_app" />
+
+    <Button
+        android:id="@+id/buttonLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="61dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="108dp"
+        android:onClick="onButtonLocation"
+        android:shadowColor="@android:color/black"
+        android:text="@string/location_me"
+        android:textColorHighlight="@android:color/holo_red_light"
+        android:textColorLink="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTap" />
 
 </android.support.constraint.ConstraintLayout>
