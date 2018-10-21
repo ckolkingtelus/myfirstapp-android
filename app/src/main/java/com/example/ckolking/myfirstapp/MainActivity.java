@@ -1,6 +1,7 @@
 package com.example.ckolking.myfirstapp;
 
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -30,6 +31,16 @@ import com.google.android.gms.tasks.Task;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 import static java.lang.String.valueOf;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+
+
 public class MainActivity extends AppCompatActivity {
 
     /*
@@ -45,6 +56,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+        This is called before initializing the map because the map needs permissions(the cause of the crash)
+        */
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M ) {
+            checkPermission();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -62,6 +81,17 @@ public class MainActivity extends AppCompatActivity {
 
         startLocationUpdates();
 
+    }
+
+    public void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ){//Can add more as per requirement
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
+                    123);
+        }
     }
 
     // Trigger new location updates at interval
@@ -125,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
                             onLocationChanged(location);
                         }
                         locationLat[0] = (double) location.getLatitude();
+                        Log.v( "MapDemoActivity", valueOf (locationLat[0]));
+                        System.out.println( locationLat[0] );
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -136,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 });
         /*  */
 //        Toast myToast = Toast.makeText(getApplicationContext(), "Here!", Toast.LENGTH_LONG);
-        Toast myToast = Toast.makeText(getApplicationContext(), valueOf( (int) locationLat[0] ), Toast.LENGTH_LONG);
+        Toast myToast = Toast.makeText(getApplicationContext(), valueOf( locationLat[0] ), Toast.LENGTH_LONG);
         myToast.show();
     }
 
