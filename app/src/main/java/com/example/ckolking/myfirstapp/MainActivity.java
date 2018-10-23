@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
         /*
         This is called before initializing the map because the map needs permissions(the cause of the crash)
         */
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M ) {
+        Log.d("onCreate", valueOf(Build.VERSION.SDK_INT));
+        Log.d("onCreate", valueOf(Build.VERSION_CODES.M));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
             checkPermission();
         }
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkPermission(){
+        Log.d("CheckPermission", valueOf(Manifest.permission.ACCESS_COARSE_LOCATION));
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 ){//Can add more as per requirement
@@ -91,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
                     123);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] result){
+        super.onRequestPermissionsResult(requestCode, permissions, result);
+
+        if(requestCode == 123 && result[0] == PackageManager.PERMISSION_GRANTED){
+            //do things as usual init map or something else when location permission is granted
         }
     }
 
@@ -124,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 Looper.myLooper());
     }
 
-    public void onLocationChanged(Location location) {
+    protected void onLocationChanged(Location location) {
         // New location has now been determined
         String msg = "Updated Location: " +
                 Double.toString(location.getLatitude()) + "," +
@@ -134,13 +146,15 @@ public class MainActivity extends AppCompatActivity {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
     }
 
-    public void onButtonTap(View v) {
+    protected void onButtonTap(View v) {
+        Log.d("onButtonTap", "Ouch!");
         Toast myToast = Toast.makeText(getApplicationContext(), "Ouch!", Toast.LENGTH_LONG);
         myToast.show();
     }
 
     public void onButtonLocation(View v) {
             /* */
+        Log.d("onButtonLocation", "start function");
         final double[] locationLat = {-1};
         FusedLocationProviderClient locationClient =
                 getFusedLocationProviderClient(this);
@@ -153,23 +167,30 @@ public class MainActivity extends AppCompatActivity {
                         // GPS location can be null if GPS is switched off
                         if (location != null) {
                             onLocationChanged(location);
+                            Log.d("onSuccessListener-Location", valueOf( location.getLatitude()));
+                            locationLat[0] = location.getLatitude();
+                            Log.d("onSuccessListener-Location", valueOf( locationLat[0] ));
+                            //        Toast myToast = Toast.makeText(getApplicationContext(), "Here!", Toast.LENGTH_LONG);
+                            Toast myToast = Toast.makeText(getApplicationContext(), valueOf( locationLat[0] ), Toast.LENGTH_LONG);
+                            myToast.show();
+                        } else {
+                            Log.d("onSuccessListener-Location", "location is \'null\'");
+                            Toast myToast = Toast.makeText(getApplicationContext(), "location is \'null\'", Toast.LENGTH_LONG);
+                            myToast.show();
                         }
-                        locationLat[0] = (double) location.getLatitude();
-                        Log.v( "MapDemoActivity", valueOf (locationLat[0]));
-                        System.out.println( locationLat[0] );
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("MapDemoActivity", "Error trying to get last GPS location");
+                        Log.d("onFailureListener-Location", "Error trying to get last GPS location");
                         e.printStackTrace();
+                        Toast myToast = Toast.makeText(getApplicationContext(), "no location, error", Toast.LENGTH_LONG);
+                        myToast.show();
                     }
                 });
         /*  */
-//        Toast myToast = Toast.makeText(getApplicationContext(), "Here!", Toast.LENGTH_LONG);
-        Toast myToast = Toast.makeText(getApplicationContext(), valueOf( locationLat[0] ), Toast.LENGTH_LONG);
-        myToast.show();
+
     }
 
     @Override
