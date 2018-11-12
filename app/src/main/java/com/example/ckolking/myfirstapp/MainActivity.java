@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
                             locationLat[0] = location.getLatitude();
                             Log.d("onSuccessListener-Location", valueOf( locationLat[0] ));
                             //        Toast myToast = Toast.makeText(getApplicationContext(), "Here!", Toast.LENGTH_LONG);
-                            Toast myToast = Toast.makeText(getApplicationContext(), valueOf( locationLat[0] ), Toast.LENGTH_LONG);
+                            Toast myToast = Toast.makeText(getApplicationContext(), "Here: " + valueOf( locationLat[0] ), Toast.LENGTH_LONG);
                             myToast.show();
                         } else {
                             Log.d("onSuccessListener-Location", "location is \'null\'");
