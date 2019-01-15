@@ -21,4 +21,10 @@
         </activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<!-- COARSE fails in emulator (always location is found to be 'null') because it does not have a 'NETWORK' provider, it has only GPS:   -->
+    <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />  -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 </manifest>
