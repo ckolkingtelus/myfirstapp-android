@@ -1,4 +1,6 @@
 # myfirstapp-android
 
-> first app on Win7 laptop
+> first app 
 ---
+- started on Win7 laptop. 
+- app has button, press and 'ouch' Toast appears. 
