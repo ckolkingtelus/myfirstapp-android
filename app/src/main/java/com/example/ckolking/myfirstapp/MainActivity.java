@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest mLocationRequest;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+    private long FASTEST_INTERVAL = 2 * 1000; /* 2 sec */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
