@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private LocationRequest mLocationRequest;
 
     private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2 * 1000; /* 2 sec */
+    private long FASTEST_INTERVAL = 7 * 1000; /* 7 sec */
+    private int REQUEST_PERMISSIONS_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +82,34 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fabLocation = (FloatingActionButton) findViewById(R.id.fabLocation);
 
-        startLocationUpdates();
+        // ISSUE: the location update Toasts will not start if the end-user has not
+        // already allowed this app to access device location information so:
+        // upon first app use after APK installation, the location Toasts do not show, and
+        // after allowing app access to device location info AND re-starting the app, then
+        // the location update Toasts appear.
+        // Solution:  move the 'startLocationUpdates' to callback from permissions request method.
+        // Solution **part 2** : I still need this code here IF the user has ALREADY allowed this app
+        // to access location, then start the updates, otherwise the request for permission
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                &&
+                ContextCompat.checkSelfPermission(this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates();
+        }
 
-    }
+        }
 
     public void checkPermission(){
-        Log.d("CEK CheckPermission", valueOf(Manifest.permission.ACCESS_COARSE_LOCATION));
-        Log.d("CEK CheckPermission", valueOf(Manifest.permission.ACCESS_FINE_LOCATION));
+        Log.d("CEK CheckPermission", "ACCESS_COARSE_LOCATION value is: " + valueOf(Manifest.permission.ACCESS_COARSE_LOCATION));
+        Log.d("CEK CheckPermission", "ACCESS_FINE_LOCATION value is: " + valueOf(Manifest.permission.ACCESS_FINE_LOCATION));
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 ){//Can add more as per requirement
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION},
-                    123);
+                    REQUEST_PERMISSIONS_CODE);
         }
     }
 
@@ -102,8 +117,10 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] result){
         super.onRequestPermissionsResult(requestCode, permissions, result);
 
-        if(requestCode == 123 && result[0] == PackageManager.PERMISSION_GRANTED){
+        if(requestCode == REQUEST_PERMISSIONS_CODE && result[0] == PackageManager.PERMISSION_GRANTED){
             //do things as usual init map or something else when location permission is granted
+            Log.d("CEK onRequestPermissionsResult", "TO DO: start the auto-Toast location updates");
+            startLocationUpdates();
         }
     }
 
@@ -148,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
         // You can now create a LatLng Object for use with maps
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         // TO DO: what shall I do with this new LatLng object??
-        
+
     }
 
     protected void onButtonTap(View v) {
