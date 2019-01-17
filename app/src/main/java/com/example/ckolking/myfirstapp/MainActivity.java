@@ -23,22 +23,16 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 import static java.lang.String.valueOf;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -71,16 +65,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fabTap = (FloatingActionButton) findViewById(R.id.fabTap);
-        fabTap.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabEmail = (FloatingActionButton) findViewById(R.id.fabEmail);
+        fabEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
-        FloatingActionButton fabLocation = (FloatingActionButton) findViewById(R.id.fabLocation);
 
         // ISSUE: the location update Toasts will not start if the end-user has not
         // already allowed this app to access device location information so:
@@ -235,4 +227,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

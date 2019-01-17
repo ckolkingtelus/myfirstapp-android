@@ -5,6 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.ckolking.myfirstapp.MainActivity">
+    <!-- TO DO:  how do I specify the child XML file "content_main.xml"?
+       NOTE: the file "content_main.xml" does have line: " tools:showIn="@layout/activity_main"  "
+         in the "android.support.constraint.ConstraintLayout" object parms.
+         SOLUTION:  see below " <include layout="@layout/content_main" /> "
+    -->
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -23,15 +28,7 @@
     <include layout="@layout/content_main" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabTap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabLocation"
+        android:id="@+id/fabEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

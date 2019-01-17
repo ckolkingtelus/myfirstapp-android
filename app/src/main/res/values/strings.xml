@@ -3,4 +3,5 @@
     <string name="action_settings">Settings</string>
     <string name="tap_me">Tap me please!</string>
     <string name="location_me">My location is ...</string>
+    <string name="app_name_big_text">Tap me if you dare!</string>
 </resources>
