@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         /*
         This is called before initializing the map because the map needs permissions(the cause of the crash)
         */
-        Log.d("onCreate", valueOf(Build.VERSION.SDK_INT));
-        Log.d("onCreate", valueOf(Build.VERSION_CODES.M));
+        Log.d("CEK onCreate", valueOf(Build.VERSION.SDK_INT));
+        Log.d("CEK onCreate", valueOf(Build.VERSION_CODES.M));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
             checkPermission();
         }
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkPermission(){
-        Log.d("CheckPermission", valueOf(Manifest.permission.ACCESS_COARSE_LOCATION));
-        Log.d("CheckPermission", valueOf(Manifest.permission.ACCESS_FINE_LOCATION));
+        Log.d("CEK CheckPermission", valueOf(Manifest.permission.ACCESS_COARSE_LOCATION));
+        Log.d("CEK CheckPermission", valueOf(Manifest.permission.ACCESS_FINE_LOCATION));
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 ){//Can add more as per requirement
@@ -143,19 +143,23 @@ public class MainActivity extends AppCompatActivity {
                 Double.toString(location.getLatitude()) + "," +
                 Double.toString(location.getLongitude());
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Log.d("CEK onLocationChanged", "Toast location update:" + msg);
+
         // You can now create a LatLng Object for use with maps
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        // TO DO: what shall I do with this new LatLng object??
+        
     }
 
     protected void onButtonTap(View v) {
-        Log.d("onButtonTap", "Ouch!");
+        Log.d("CEK onButtonTap", "Ouch!");
         Toast myToast = Toast.makeText(getApplicationContext(), "Ouch!", Toast.LENGTH_LONG);
         myToast.show();
     }
 
     public void onButtonLocation(View v) {
             /* */
-        Log.d("onButtonLocation", "start function");
+        Log.d("CEK onButtonLocation", "start function");
         final double[] locationLat = {-1};
         FusedLocationProviderClient locationClient =
                 getFusedLocationProviderClient(this);
@@ -168,14 +172,14 @@ public class MainActivity extends AppCompatActivity {
                         // GPS location can be null if GPS is switched off
                         if (location != null) {
                             onLocationChanged(location);
-                            Log.d("onSuccessListener-Location", valueOf( location.getLatitude()));
+                            Log.d("CEK onSuccessListener-Location", valueOf( location.getLatitude()));
                             locationLat[0] = location.getLatitude();
-                            Log.d("onSuccessListener-Location", valueOf( locationLat[0] ));
+                            Log.d("CEK onSuccessListener-Location", valueOf( locationLat[0] ));
                             //        Toast myToast = Toast.makeText(getApplicationContext(), "Here!", Toast.LENGTH_LONG);
                             Toast myToast = Toast.makeText(getApplicationContext(), "Here is: " + valueOf( locationLat[0] ), Toast.LENGTH_LONG);
                             myToast.show();
                         } else {
-                            Log.d("onSuccessListener-Location", "location is \'null\'");
+                            Log.d("CEK onSuccessListener-Location", "location is \'null\'");
                             Toast myToast = Toast.makeText(getApplicationContext(), "location is \'null\'", Toast.LENGTH_LONG);
                             myToast.show();
                         }
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("onFailureListener-Location", "Error trying to get last GPS location");
+                        Log.d("CEK onFailureListener-Location", "Error trying to get last GPS location");
                         e.printStackTrace();
                         Toast myToast = Toast.makeText(getApplicationContext(), "no location, error", Toast.LENGTH_LONG);
                         myToast.show();
